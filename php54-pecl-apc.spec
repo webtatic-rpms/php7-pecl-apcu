@@ -5,16 +5,16 @@
 %global pecl_name APC
 
 Summary:       APC caches and optimizes PHP intermediate code
-Name:          php-pecl-apc
-Version:       3.1.9
-Release:       1.2%{?dist}
+Name:          php54w-pecl-apc
+Version:       3.1.12
+Release:       1%{?dist}
 License:       PHP
 Group:         Development/Languages
 URL:           http://pecl.php.net/package/APC
 Source:        http://pecl.php.net/get/APC-%{version}.tgz
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root
 Conflicts:     php-mmcache php-eaccelerator
-BuildRequires: php-devel >= 5.1.0, httpd-devel, php-pear, pcre-devel
+BuildRequires: php54w-devel >= 5.1.0, httpd-devel, php54w-pear, pcre-devel
 Requires(post): %{__pecl}
 Requires(postun): %{__pecl}
 %if %{?php_zend_api}0
@@ -179,73 +179,6 @@ fi
 
 
 %changelog
-* Tue Sep 06 2011 Andy Thompson <andy@webtatic.com> - 3.1.9-1.2
-- Rebuild to link to internal PHP pcre library
-
-* Wed Jun 15 2011 Andy Thompson <andy@webtatic.com> - 3.1.9-1
-- update to 3.1.9
-
-* Sat Feb 19 2011 Andy Thompson <andy@webtatic.com> - 3.1.6-1.1
-- rebuild for repository recovery
-
-* Sun Dec 12 2010 Andy Thompson <andy@webtatic.com> - 3.1.6-1
-- update to 3.1.6
-
-* Tue Aug 17 2010 Andy Thompson <andy@webtatic.com> - 3.1.4-2
-- fix default apc.shm_size value
-
-* Sat Aug 07 2010 Andy Thompson <andy@webtatic.com> - 3.1.4-1
-- update to 3.1.4
-
-* Fri Aug 14 2009 Remi Collet <Fedora@FamilleCollet.com> - 3.1.3p1-1
-- update to 3.1.3 patch1 (beta, for PHP 5.3 support)
-- add test suite (disabled for http://pecl.php.net/bugs/bug.php?id=16793)
-- add use_request_time, lazy_classes, lazy_functions options (apc.ini)
-
-* Sun Jul 26 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.1.2-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
-
-* Sun Jul 12 2009 Remi Collet <Fedora@FamilleCollet.com> - 3.1.2-1
-- update to 3.1.2 (beta) - PHP 5.3 support
-- use setup -q -c
-
-* Thu Feb 26 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.0.19-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
-
-* Wed Jun 25 2008 Tim Jackson <rpm@timj.co.uk> - 3.0.19-1
-- Update to 3.0.19
-- Fix PHP Zend API/ABI dependencies to work on EL-4/5
-- Fix "License" tag
-- Fix encoding of "NOTICE" file
-- Add registration via PECL
-
-* Mon Feb 18 2008 Fedora Release Engineering <rel-eng@fedoraproject.org> - 3.0.14-3
-- Autorebuild for GCC 4.3
-
-* Tue Aug 28 2007 Fedora Release Engineering <rel-eng at fedoraproject dot org> - 3.0.14-2
-- Rebuild for selinux ppc32 issue.
-
-* Thu Jun 28 2007 Chris Chabot <chabotc@xs4all.nl> - 3.0.14-1
-- Updated to 3.0.14
-- Included new php api snipplets
-
-* Fri Sep 15 2006 Chris Chabot <chabotc@xs4all.nl> - 3.0.12-5
-- Updated to new upstream version
-
-* Mon Sep 11 2006 Chris Chabot <chabotc@xs4all.nl> - 3.0.10-5
-- FC6 rebuild 
-
-* Sun Aug 13 2006 Chris Chabot <chabotc@xs4all.nl> - 3.0.10-4
-- FC6T2 rebuild
-
-* Mon Jun 19 2006 - Chris Chabot <chabotc@xs4all.nl> - 3.0.10-3
-- Renamed to php-pecl-apc and added provides php-apc
-- Removed php version string from the package version
-
-* Mon Jun 19 2006 - Chris Chabot <chabotc@xs4all.nl> - 3.0.10-2
-- Trimmed down BuildRequires
-- Added Provices php-pecl(apc)
-
-* Sun Jun 18 2006 - Chris Chabot <chabotc@xs4all.nl> - 3.0.10-1
-- Initial package, templated on already existing php-json 
-  and php-eaccelerator packages
+* Sun Aug 26 2012 Andy Thompson <andy@webtatic.com> - 3.1.12-1
+- branch from php53-pecl-apc
+- update to 3.1.12
