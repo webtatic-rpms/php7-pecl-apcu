@@ -7,7 +7,7 @@
 Summary:       APC caches and optimizes PHP intermediate code
 Name:          php54w-pecl-apc
 Version:       3.1.13
-Release:       1%{?dist}
+Release:       2%{?dist}
 License:       PHP
 Group:         Development/Languages
 URL:           http://pecl.php.net/package/APC
@@ -179,6 +179,9 @@ fi
 
 
 %changelog
+* Wed Jun 12 2013 Andy Thompson <andy@webtatic.com> - 3.1.13-2
+- Rebuild for PCRE version change
+
 * Mon Sep 17 2012 Andy Thompson <andy@webtatic.com> - 3.1.13-1
 - update to 3.1.13
 
