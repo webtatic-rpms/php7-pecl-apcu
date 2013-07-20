@@ -1,13 +1,16 @@
 %{!?__pecl: %{expand: %%global __pecl %{_bindir}/pecl}}
-%global php_extdir %(php-config --extension-dir 2>/dev/null || echo %{_libdir}/php4)                     
+
 %global php_zendabiver %((echo 0; php -i 2>/dev/null | sed -n 's/^PHP Extension => //p') | tail -1)
 %global php_version %((echo 0; php-config --version 2>/dev/null) | tail -1)
 %global pecl_name APC
 
+# Build ZTS extension or only NTS
+%global with_zts      1
+
 Summary:       APC caches and optimizes PHP intermediate code
 Name:          php54w-pecl-apc
 Version:       3.1.13
-Release:       2%{?dist}
+Release:       3%{?dist}
 License:       PHP
 Group:         Development/Languages
 URL:           http://pecl.php.net/package/APC
@@ -41,35 +44,55 @@ intermediate code.
 
 
 %prep
-%setup -q -c 
+%setup -q -c
 
+%if %{with_zts}
+cp -r %{pecl_name}-%{version} %{pecl_name}-%{version}-zts
+%endif
 
 %build
-cd APC-%{version}
+pushd %{pecl_name}-%{version}
 %{_bindir}/phpize
 %configure --enable-apc-mmap --with-php-config=%{_bindir}/php-config
 %{__make} %{?_smp_mflags}
+popd
 
+%if %{with_zts}
+pushd %{pecl_name}-%{version}-zts
+%{_bindir}/zts-phpize
+%configure --enable-apc-mmap --with-php-config=%{_bindir}/zts-php-config
+%{__make} %{?_smp_mflags}
+popd
+%endif
 
 %install
-pushd APC-%{version}
 %{__rm} -rf %{buildroot}
+
+pushd %{pecl_name}-%{version}
 %{__make} install INSTALL_ROOT=%{buildroot}
 
 # Fix the charset of NOTICE
 iconv -f iso-8859-1 -t utf8 NOTICE >NOTICE.utf8
 mv NOTICE.utf8 NOTICE
 
+rm -f %{buildroot}%{php_incldir}/ext/apc/apc_serializer.h
 popd
+
+%if %{with_zts}
+pushd %{pecl_name}-%{version}-zts
+%{__make} install INSTALL_ROOT=%{buildroot}
+popd
+
+rm -f %{buildroot}%{php_ztsincldir}/ext/apc/apc_serializer.h
+%endif
+
 # Install the package XML file
 %{__mkdir_p} %{buildroot}%{pecl_xmldir}
 %{__install} -m 644 package.xml %{buildroot}%{pecl_xmldir}/%{name}.xml
 
-rm -f %{buildroot}%{_includedir}/php/ext/apc/apc_serializer.h
-
 # Drop in the bit of configuration
-%{__mkdir_p} %{buildroot}%{_sysconfdir}/php.d
-%{__cat} > %{buildroot}%{_sysconfdir}/php.d/apc.ini << 'EOF'
+%{__mkdir_p} %{buildroot}%{php_inidir}
+%{__cat} > %{buildroot}%{php_inidir}/apc.ini << 'EOF'
 ; Enable apc extension module
 extension = apc.so
 
@@ -142,12 +165,25 @@ apc.file_md5=0
 apc.preload_path
 EOF
 
+%if %{with_zts}
+%{__mkdir_p} %{buildroot}%{php_ztsinidir}
+%{__cp} %{buildroot}%{php_inidir}/apc.ini %{buildroot}%{php_ztsinidir}/apc.ini
+%endif
 
 %check
-cd %{pecl_name}-%{version}
+pushd %{pecl_name}-%{version}
 TEST_PHP_EXECUTABLE=$(which php) php run-tests.php \
     -n -q -d extension_dir=modules \
     -d extension=apc.so
+popd
+
+%if %{with_zts}
+pushd %{pecl_name}-%{version}-zts
+TEST_PHP_EXECUTABLE=$(which zts-php) zts-php run-tests.php \
+    -n -q -d extension_dir=modules \
+    -d extension=apc.so
+popd
+%endif
 
 
 %if 0%{?pecl_install:1}
@@ -170,15 +206,21 @@ fi
 
 %files
 %defattr(-, root, root, 0755)
-%doc APC-%{version}/TECHNOTES.txt APC-%{version}/CHANGELOG APC-%{version}/LICENSE
-%doc APC-%{version}/NOTICE        APC-%{version}/TODO      APC-%{version}/apc.php
-%doc APC-%{version}/INSTALL
-%config(noreplace) %{_sysconfdir}/php.d/apc.ini
+%doc %{pecl_name}-%{version}/{TECHNOTES.txt,LICENSE,NOTICE,apc.php,INSTALL}
+%config(noreplace) %{php_inidir}/apc.ini
 %{php_extdir}/apc.so
 %{pecl_xmldir}/%{name}.xml
 
+%if %{with_zts}
+%config(noreplace) %{php_ztsinidir}/apc.ini
+%{php_ztsextdir}/apc.so
+%endif
+
 
 %changelog
+* Sat Jul 20 2013 Andy Thompson <andy@webtatic.com> - 3.1.13-3
+- Add ZTS compilation
+
 * Wed Jun 12 2013 Andy Thompson <andy@webtatic.com> - 3.1.13-2
 - Rebuild for PCRE version change
 
