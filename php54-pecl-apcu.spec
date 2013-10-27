@@ -119,8 +119,16 @@ apc.ttl=7200
 apc.use_request_time=1
 ; The number of seconds that a cache entry may remain on the garbage-collection list. 
 apc.gc_ttl=3600
+; If enabled, the value will be used to determine if a expunge should happen
+; when low on resources.
+; By default, it will happen if it is less than half full
+apc.smart=0
 ; The mktemp-style file_mask to pass to the mmap module 
 apc.mmap_file_mask=/tmp/apc.XXXXXX
+; If enabled, APCu attempts to prevent "slamming" of a key.
+apc.slam_defense=1
+; Defines which serializer should be used. Default is the standard PHP serializer.
+apc.serializer='default'
 ; Setting this enables APC for the CLI version of PHP (Mostly for testing and debugging).
 apc.enable_cli=0
 ; RFC1867 File Upload Progress hook handler
