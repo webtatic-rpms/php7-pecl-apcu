@@ -2,13 +2,14 @@
 
 %global php_zendabiver %((echo 0; php -i 2>/dev/null | sed -n 's/^PHP Extension => //p') | tail -1)
 %global php_version %((echo 0; php-config --version 2>/dev/null) | tail -1)
+%global basepkg   php54w
 %global pecl_name apcu
 
 # Build ZTS extension or only NTS
 %global with_zts      1
 
 Summary:       APCu - APC User Cache
-Name:          php54w-pecl-apcu
+Name:          %{basepkg}-pecl-apcu
 Version:       4.0.2
 Release:       1%{?dist}
 License:       PHP
@@ -17,7 +18,7 @@ URL:           http://pecl.php.net/package/APCu
 Source:        http://pecl.php.net/get/apcu-%{version}.tgz
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root
 Conflicts:     php-mmcache php-eaccelerator
-BuildRequires: php54w-devel >= 5.1.0, httpd-devel, php54w-pear
+BuildRequires: %{basepkg}-devel >= 5.1.0, httpd-devel, %{basepkg}-pear
 Requires(post): %{__pecl}
 Requires(postun): %{__pecl}
 %if %{?php_zend_api}0
