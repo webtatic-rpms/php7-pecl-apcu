@@ -43,6 +43,15 @@ APCu is userland caching: APC stripped of opcode caching in preparation for the
 deployment of Zend Optimizer+ as the primary solution to opcode caching in
 future versions of PHP
 
+%package devel
+Summary:       APCu developer files (header)
+Group:         Development/Libraries
+Requires:      %{name} = %{version}-%{release}
+Requires:      php-devel
+Provides:      php-pecl-apc-devel = %{version}-%{release}
+
+%description devel
+These are the files needed to compile programs using APCu.
 
 %prep
 %setup -q -c
@@ -72,7 +81,6 @@ popd
 pushd %{pecl_name}-%{version}
 %{__make} install INSTALL_ROOT=%{buildroot}
 
-rm -f %{buildroot}%{php_incldir}/ext/apcu/apc_serializer.h
 popd
 
 %if %{with_zts}
@@ -80,7 +88,6 @@ pushd %{pecl_name}-%{version}-zts
 %{__make} install INSTALL_ROOT=%{buildroot}
 popd
 
-rm -f %{buildroot}%{php_ztsincldir}/ext/apcu/apc_serializer.h
 %endif
 
 # Install the package XML file
@@ -177,8 +184,13 @@ fi
 %{php_ztsextdir}/apcu.so
 %endif
 
+%files devel
+%defattr(-,root,root,-)
+%{php_incldir}/ext/%{pecl_name}
+%{php_ztsincldir}/ext/%{pecl_name}
 
 %changelog
 * Sun Oct 27 2012 Andy Thompson <andy@webtatic.com> - 4.0.2-1
 - branch from php54-pecl-apc
 - remove opcode cache parameters
+- add devel package for extension headers
