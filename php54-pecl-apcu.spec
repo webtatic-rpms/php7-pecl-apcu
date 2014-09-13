@@ -11,7 +11,7 @@
 Summary:       APCu - APC User Cache
 Name:          %{basepkg}-pecl-apcu
 Version:       4.0.6
-Release:       1%{?dist}
+Release:       2%{?dist}
 License:       PHP
 Group:         Development/Languages
 URL:           http://pecl.php.net/package/APCu
@@ -35,6 +35,12 @@ Requires:      php = %{php_version}
 %endif
 %endif
 Provides:      php-pecl(%{pecl_name}) = %{version}
+
+%if 0%{?fedora} < 20 && 0%{?rhel} < 7
+# Filter private shared
+%{?filter_provides_in: %filter_provides_in %{_libdir}/.*\.so$}
+%{?filter_setup}
+%endif
 
 Requires(post): %{__pecl}
 Requires(postun): %{__pecl}
@@ -199,6 +205,9 @@ fi
 %{php_ztsincldir}/ext/%{pecl_name}
 
 %changelog
+* Sat Sep 13 2014 Andy Thompson <andy@webtatic.com> - 4.0.6-2
+- Filter .so provides < EL7
+
 * Sun Jun 15 2014 Andy Thompson <andy@webtatic.com> - 4.0.6-1
 - Update to apcu 4.0.6
 
