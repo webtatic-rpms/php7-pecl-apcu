@@ -4,9 +4,7 @@
 %global php_version %((echo 0; php-config --version 2>/dev/null) | tail -1)
 %global basepkg   php54w
 %global pecl_name apcu
-
-# Build ZTS extension or only NTS
-%global with_zts      1
+%global with_zts  0%{?__ztsphp:1}
 
 Summary:       APCu - APC User Cache
 Name:          %{basepkg}-pecl-apcu
