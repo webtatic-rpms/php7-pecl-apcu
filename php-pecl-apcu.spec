@@ -2,7 +2,7 @@
 
 %global php_zendabiver %((echo 0; php -i 2>/dev/null | sed -n 's/^PHP Extension => //p') | tail -1)
 %global php_version %((echo 0; php-config --version 2>/dev/null) | tail -1)
-%global basepkg   php54w
+%global basepkg   %{?basepkg}%{!?basepkg:php}
 %global pecl_name apcu
 %global with_zts  0%{?__ztsphp:1}
 
