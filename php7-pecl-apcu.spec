@@ -8,7 +8,7 @@
 
 Summary:       APCu - APC User Cache
 Name:          %{basepkg}-pecl-apcu
-Version:       4.0.7
+Version:       5.1.2
 Release:       1%{?dist}
 License:       PHP
 Group:         Development/Languages
@@ -203,19 +203,6 @@ fi
 %{php_ztsincldir}/ext/%{pecl_name}
 
 %changelog
-* Sat Oct 11 2014 Andy Thompson <andy@webtatic.com> - 4.0.7-1
-- Update to apcu 4.0.7
-
-* Sat Sep 13 2014 Andy Thompson <andy@webtatic.com> - 4.0.6-2
-- Filter .so provides < EL7
-
-* Sun Jun 15 2014 Andy Thompson <andy@webtatic.com> - 4.0.6-1
-- Update to apcu 4.0.6
-
-* Fri Feb 07 2014 Andy Thompson <andy@webtatic.com> - 4.0.3-1
-- Update to apcu 4.0.3
-
-* Sun Oct 27 2013 Andy Thompson <andy@webtatic.com> - 4.0.2-1
-- branch from php54-pecl-apc
-- remove opcode cache parameters
-- add devel package for extension headers
+* Sun Jan 10 2016 Andy Thompson <andy@webtatic.com> - 5.1.2-1
+- branch from php5-pecl-apc
+- Update to APCu 5.1.2
