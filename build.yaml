@@ -1,14 +1,5 @@
-name: php-pecl-apcu
+name: php7-pecl-apcu
 profiles:
-  php54w:
-    define:
-      basepkg: php54w
-  php55w:
-    define:
-      basepkg: php55w
-  php56w:
-    define:
-      basepkg: php56w
   php70w:
     define:
       basepkg: php70w
@@ -17,21 +8,9 @@ builds:
     target: el7-development
     arch: [x86_64]
     profiles:
-      - php54w
-      - php55w
-      - php56w
       - php70w
   webtatic-el6:
     target: el6-development
     arch: [x86_64, i386]
     profiles:
-      - php54w
-      - php55w
-      - php56w
       - php70w
-  webtatic-el5:
-    target: el5-development
-    arch: [x86_64, i386]
-    profiles:
-      - php54w
-      - php55w
