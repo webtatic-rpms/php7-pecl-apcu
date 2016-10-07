@@ -8,7 +8,7 @@
 
 Summary:       APCu - APC User Cache
 Name:          %{basepkg}-pecl-apcu
-Version:       5.1.5
+Version:       5.1.6
 Release:       1%{?dist}
 License:       PHP
 Group:         Development/Languages
@@ -203,6 +203,9 @@ fi
 %{php_ztsincldir}/ext/%{pecl_name}
 
 %changelog
+* Fri Oct 07 2016 Andy Thompson <andy@webtatic.com> - 5.1.6-1
+- Update to APCu 5.1.6
+
 * Tue Jun 21 2016 Andy Thompson <andy@webtatic.com> - 5.1.5-1
 - Update to APCu 5.1.5
 
