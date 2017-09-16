@@ -9,7 +9,7 @@
 Summary:       APCu - APC User Cache
 Name:          %{basepkg}-pecl-apcu
 Version:       5.1.8
-Release:       1.1%{?dist}
+Release:       2%{?dist}
 License:       PHP
 Group:         Development/Languages
 URL:           http://pecl.php.net/package/APCu
@@ -203,6 +203,9 @@ fi
 %{php_ztsincldir}/ext/%{pecl_name}
 
 %changelog
+* Sat Sep 16 2017 Andy Thompson <andy@webtatic.com> - 5.1.8-2
+- rebuild for EL7.4
+
 * Sat Jun 24 2017 Andy Thompson <andy@webtatic.com> - 5.1.8-1.1
 - Rebuild for php-7.2.0alpha2 Zend ABI version change
 
